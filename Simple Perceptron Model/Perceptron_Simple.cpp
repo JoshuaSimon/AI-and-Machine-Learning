@@ -47,7 +47,8 @@ void perceptron::fit(vector< vector<float> > X, vector<float> y)
 {
 	for (int i = 0; i < X[0].size() + 1; i++) // X[0].size() + 1 -> +1 to add the bias term
 	{
-		m_w.push_back(0);
+		float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+		m_w.push_back(r);
 	}
 
 	for (int i = 0; i < m_epochs; i++)

@@ -1,2 +1,2 @@
-# Machine-Learning
+# AI And Machine-Learning
 A repository for learning about AI and machine learning. 

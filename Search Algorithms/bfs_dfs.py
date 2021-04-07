@@ -1,6 +1,7 @@
-# Implementation of the 
+# Implementation of the
 # - Breadth-First Search (BFS) algorithm
-# - Depth-first search (DFS) algorithm.
+# - Depth-first search (DFS) algorithm
+# for finding a route between cities.
 
 from data import init_routes, create_child_node_list
 
@@ -19,16 +20,18 @@ def bfs(target, node_list, data):
         print("There is no solution.")
 
 
-def dfs(target, node, data):
+def dfs(target, node, data, seen_nodes=[]):
+    seen_nodes.append(node)
     if node == target:
         print("Solution found.")
         return True
 
-    new_nodes = list(create_child_node_list([node], data))
+    new_nodes = create_child_node_list([node], data)
+    new_nodes = list(new_nodes - set(seen_nodes))
     print("Layer:", new_nodes)
 
     while new_nodes:
-        result = dfs(target, new_nodes[0], data)
+        result = dfs(target, new_nodes[0], data, seen_nodes)
         if result:
             print("Solution found.")
             return True
@@ -46,5 +49,5 @@ if __name__ == "__main__":
     start = "Linz"
     target = "Ulm"
 
-    #bfs(target, [start], routes)
+    bfs(target, [start], routes)
     dfs(target, start, routes)

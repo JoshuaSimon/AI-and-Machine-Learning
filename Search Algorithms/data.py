@@ -3,6 +3,7 @@
 
 from dataclasses import dataclass
 
+
 @dataclass(frozen=True)
 class Route:
     """Class for keeping track of routes."""
@@ -13,7 +14,7 @@ class Route:
 
 
 def create_child_node_list(start_nodes, data):
-    """Determines the child of every node."""
+    """Determines the children of every node."""
     node_list = []
     for node in start_nodes:
         for route in data:
@@ -26,7 +27,37 @@ def create_child_node_list(start_nodes, data):
     return set(node_list)
     
 
+def create_ordered_child_node_list(parent_node, data, heuristic):
+    """Returns an ordered child node list."""
+    node_list = []
+    node_cost = []
+    node_heur = []
+    node_weight = []
+
+    # Read node information from given data.
+    for route in data:
+        if route.city_start == parent_node:
+            node_list.append(route.city_end)
+            node_cost.append(route.distance)
+            node_heur.append(heuristic[parent_node])
+            node_weight.append(route.distance + heuristic[parent_node])
+
+        if route.city_end == parent_node:
+            node_list.append(route.city_start)
+            node_cost.append(route.distance)
+            node_heur.append(heuristic[parent_node])
+            node_weight.append(route.distance + heuristic[parent_node])
+
+    # Ordering by weight.
+    fst = lambda x: x[0]
+    snd = lambda x: x[1]
+    res = map(snd, sorted(zip(node_weight, node_list), key=fst))
+
+    return set(res)
+
+
 def init_routes():
+    """Creates a list containing all valid routes."""
     routes = []
     routes.append(Route(1, "Frankfurt", "Würzburg", 111))
     routes.append(Route(2, "Würzburg", "Nürnberg", 104))
@@ -58,3 +89,28 @@ def init_routes():
     routes.append(Route(27, "Karlsruhe", "Basel", 191))
     return routes
 
+
+def init_beeline():
+    """Creates a dictionary of all the beelines distances
+    from a city to Ulm. """
+
+    return {
+        "Basel": 204,
+        "Bayreuth": 207,
+        "Bern": 247,
+        "Frankfurt": 215,
+        "Innsbruck": 163,
+        "Karlsruhe": 137,
+        "Landeck": 143,
+        "Linz": 318,
+        "München": 120,
+        "Mannheim": 164,
+        "Memmingen": 47,
+        "Nürnberg": 132,
+        "Passau": 257,
+        "Rosenheim": 168,
+        "Stuttgart": 75,
+        "Salzburg": 236,
+        "Würzburg": 153,
+        "Zürich": 157
+    }

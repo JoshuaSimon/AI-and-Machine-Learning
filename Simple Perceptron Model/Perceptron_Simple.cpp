@@ -89,8 +89,7 @@ void perceptron::printWeights()
 
 
 
-int main()
-{
+int main() {
 	// input vectors - first element is bias neuron
 	/*vector <vector <float>> X = {
 		{1, 0, 0},
@@ -99,7 +98,7 @@ int main()
 		{1, 1, 1}
 	};*/
 	
-	vector <vector <float>> X = {
+	vector <vector<float> > X = {
 		{0, 0},
 		{0, 1},
 		{1, 0},
@@ -107,7 +106,7 @@ int main()
 	};
 
 	// Outputs
-	vector <float> y = { 0,1,1,1 };
+	vector<float> y = { 0,1,1,1 };
 
 	perceptron p(0.1, 500);
 	p.fit(X, y);
